@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Researcher Information</title>
+    <style>
+        /* CSS styles for the table */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0f9442;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        td, th {
+            padding: 10px;
+            border: 1px solid #044e38;
+        }
+
+        th {
+            background-color: #12cfc6;
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 18px;
+            color: #666;
+        }
+
+        input[type="text"], input[type="tel"], input[type="email"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #0bb644;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            margin-top: 20px;
+            background-color: #0ca311;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #1deed2;
+        }
+        
+        @media screen and (max-width: 600px) {
+            form {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h2>Researcher Information</h2>
+
+<form action="researchers.inc.php" method="POST" onsubmit="return validateResearcherForm() && displayRegistrationMessage()">
+
+    <table border="0" align="center">
+        <tr>
+            <td><label for="researcher-number">Researcher's number</label></td>
+            <td><input type="text" id="researcher-number" name="researcher-number" required></td>
+        </tr>
+        <tr>
+            <td><label for="researcher-surname">Researcher's surname</label></td>
+            <td><input type="text" id="researcher-surname" name="researcher-surname" required></td>
+        </tr>
+        <tr>
+            <td><label for="researcher-phone">Researcher's phone number</label></td>
+            <td><input type="tel" id="researcher-phone" name="researcher-phone" required></td>
+        </tr>
+        <tr>
+            <td><label for="researcher-qualifications">Researcher's other qualifications</label></td>
+            <td><input type="text" id="researcher-qualifications" name="researcher-qualifications" required></td>
+        </tr>
+        <tr>
+            <td><label for="researcher-email">Researcher's email</label></td>
+            <td><input type="email" id="researcher-email" name="researcher-email" required></td>
+        </tr>
+        <tr>
+            <td><label for="researcher-research-area">Researcher's research area</label></td>
+            <td><input type="text" id="researcher-research-area" name="researcher-research-area" required></td>
+        </tr>
+        <tr>
+            <td><label for="researcher-theme">Researcher's theme</label></td>
+            <td><input type="text" id="researcher-theme" name="researcher-theme" required></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><input type="submit" name="save" value="Submit"></td>
+        </tr>
+    </table>
+</form>
+<div style="text-align: right;">
+    <button onclick="goToProject()" style="font-size: 20px; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease;">BACK</button>
+</div>
+<script>
+    // JavaScript validation function
+    function validateResearcherForm() {
+        var researcherNumber = document.getElementById("researcher-number").value.trim();
+        var researcherSurname = document.getElementById("researcher-surname").value.trim();
+        var researcherPhone = document.getElementById("researcher-phone").value.trim();
+        var researcherQualifications = document.getElementById("researcher-qualifications").value.trim();
+        var researcherEmail = document.getElementById("researcher-email").value.trim();
+        var researcherResearchArea = document.getElementById("researcher-research-area").value.trim();
+        var researcherTheme = document.getElementById("researcher-theme").value.trim();
+
+        if (researcherNumber === "" || researcherSurname === "" || researcherPhone === "" || researcherQualifications === "" || researcherEmail === "" || researcherResearchArea === "" || researcherTheme === "") {
+            alert("All fields are required!");
+            return false;
+        }
+
+        // Additional validation logic can be added here if needed
+
+        return true;
+    }
+    function goToProject(){
+        window.location.href ="project.html";
+    }
+    function displayRegistrationMessage() {
+  alert("Registration successful!");
+  return true;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,219 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaborators Database</title>
+    
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #06a01b;
+            color: #333;
+        }
+
+        h1.center {
+            text-align: center;
+            margin-top: 20px;
+            color: #444;
+        }
+
+        form {
+            margin: 0 auto;
+            width: 80%;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 18px;
+            color: #003d3f;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 8px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            border: 1px solid #077292;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            font-size: 24px;
+            padding: 10px 20px;
+            background-color: #108392;
+            color: rgb(177, 3, 3);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #08124b;
+        }
+
+        .center {
+            margin: 0 auto;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        @media screen and (max-width: 600px) {
+            form {
+                width: 90%;
+            }
+        }
+
+        .btn {
+            font-size: 20px;
+            padding: 10px 20px;
+        }
+
+        /* Style the button on hover */
+        .btn:hover {
+            background-color: #23f1d6;
+        }
+        @media screen and (max-width: 600px) {
+            form {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="center">Collaborators Database</h1>
+    <form id="collabForm" onsubmit="submitForm(event)">
+        <table border="0">
+    <form action="collab.inc.php" method="POST" onsubmit="return validateForm()">
+        <table border="0">
+            <tr>
+                <td><label for="collaborators-name">Enter collaborator's name</label></td>
+                <td><input type="text" id="collaborators-name" name="collaborators-name" required></td>
+            </tr>
+            <tr>
+                <td><label for="collaborators-email">Enter collaborator's email</label></td>
+                <td><input type="email" id="collaborators-email" name="collaborators-email" placeholder="email" required></td>
+            </tr>
+            <tr>
+                <td><label for="collaborators-project">Enter collaborator's project working for</label></td>
+                <td><input type="text" id="collaborators-project" name="collaborators-project" required></td>
+            </tr>
+            <tr>
+                <td><label for="collaborators-phone">Enter collaborator's phone Number</label></td>
+                <td><input type="tel" id="collaborators-phone" name="collaborators-phone" required></td>
+            </tr>
+        </table>
+        <tbody>
+
+        </tbody>
+        <table>
+        <!-- Submit button -->
+        <div class="center">
+            <button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
+        </div>
+    </table>
+
+    </form>
+    <div class="center">
+    </div>
+    <script>
+        function validateForm() {
+            var collaboratorsName = document.getElementById("collaborators-name").value.trim();
+            var collaboratorsEmail = document.getElementById("collaborators-email").value.trim();
+            var collaboratorsProject = document.getElementById("collaborators-project").value.trim();
+            var collaboratorsPhone = document.getElementById("collaborators-phone").value.trim();
+            var emailRegex = /^\S+@\S+.\S+/;
+            var phoneRegex = /^\d{10}/;
+
+            if (collaboratorsName === "" || collaboratorsEmail === "" || collaboratorsProject === "" || collaboratorsPhone === "") {
+                alert("All fields are required!");
+                return false;
+            }
+
+            if (!emailRegex.test(collaboratorsEmail)) {
+                alert("Invalid email format!");
+                return false;
+            }
+
+            if (!phoneRegex.test(collaboratorsPhone)) {
+                alert("Invalid phone number format! Please enter a 10-digit number without spaces or dashes.");
+                return false;
+            }
+
+            return true;
+        }
+        function submitForm(event) {
+            event.preventDefault(); 
+
+            if (validateForm()) {
+                // Retrieve form data
+                var formData = new FormData(document.getElementById("collabForm"));
+                var formObject = {};
+                formData.forEach(function(value, key){
+                    formObject[key] = value;
+                });
+                var jsonData = JSON.stringify(formObject);
+
+                // Send form data to the backend
+                fetch('collab.inc.php', {
+                    method: 'POST',
+                    headers: {
+                          'Content-Type': 'application/json'
+                    },
+                    body: jsonData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data); // Log the response from the backend
+                    // Optionally, perform any additional actions after successful submission
+                    goToGrantsDatabase();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        }
+        function submitForm() { 
+            if (validateForm()) {
+                goToGrantsDatabase();
+            }
+        }
+
+        function goToGrantsDatabase() {
+            window.location.href = "grants.html"; // Change the URL to the Grants Database page
+        }
+    </script>
+</body>
+
+</html>
